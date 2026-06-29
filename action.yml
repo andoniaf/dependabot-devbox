@@ -1,0 +1,44 @@
+name: "dependabot-devbox"
+description: "Automatically update Devbox packages and open PRs, like Dependabot but for devbox.json"
+
+inputs:
+  github-token:
+    description: "GitHub token with repo write access (to open PRs)"
+    required: true
+  directory:
+    description: "Directory containing devbox.json (relative to repo root)"
+    required: false
+    default: "/"
+  base-branch:
+    description: "Base branch to open PRs against. Defaults to the repo default branch."
+    required: false
+    default: ""
+  gem-version:
+    description: "Pin a specific dependabot-devbox gem version (e.g. '0.1.0'). Defaults to latest."
+    required: false
+    default: ""
+
+runs:
+  using: "composite"
+  steps:
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: "3.3"
+
+    - name: Install dependabot-devbox
+      shell: bash
+      run: |
+        if [ -n "${{ inputs.gem-version }}" ]; then
+          gem install dependabot-devbox -v "${{ inputs.gem-version }}"
+        else
+          gem install dependabot-devbox
+        fi
+
+    - name: Run devbox dependency updates
+      shell: bash
+      env:
+        GITHUB_ACCESS_TOKEN: ${{ inputs.github-token }}
+        GITHUB_REPOSITORY: ${{ github.repository }}
+        DIRECTORY_PATH: ${{ inputs.directory }}
+        BASE_BRANCH: ${{ inputs.base-branch }}
+      run: dependabot-devbox-update

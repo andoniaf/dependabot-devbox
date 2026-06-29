@@ -1,0 +1,47 @@
+plugins:
+  - rubocop-performance
+  - rubocop-rspec
+  - rubocop-sorbet
+
+AllCops:
+  DisplayCopNames: true
+  NewCops: enable
+  TargetRubyVersion: 3.3
+  Exclude:
+    - "spec/fixtures/**/*"
+    - "vendor/**/*"
+
+Gemspec/DevelopmentDependencies:
+  Enabled: false
+Gemspec/RequireMFA:
+  Enabled: false
+
+Layout/FirstArrayElementIndentation:
+  EnforcedStyle: consistent
+Layout/FirstHashElementIndentation:
+  EnforcedStyle: consistent
+
+Metrics/AbcSize:
+  Max: 35
+Metrics/BlockLength:
+  Exclude:
+    - "spec/**/*"
+Metrics/ClassLength:
+  Max: 300
+Metrics/MethodLength:
+  Max: 30
+
+Style/FrozenStringLiteralComment:
+  Enabled: true
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Sorbet/StrictSigil:
+  Enabled: false
+Sorbet/ValidSigil:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Max: 25
+RSpec/MultipleExpectations:
+  Max: 5
