@@ -2,7 +2,7 @@
 
 Automatically update [Devbox](https://www.jetify.com/devbox) package versions and open PRs — just like Dependabot, but for `devbox.json`.
 
-This is a standalone implementation of devbox ecosystem support built on top of `dependabot-common`. It exists while [official support is pending](https://github.com/dependabot/dependabot-core/pull/14500) in upstream dependabot-core. When that PR merges, you can switch to the native Dependabot experience.
+This is a standalone implementation of devbox ecosystem support built on top of `dependabot-common`. It exists while [official support is pending](https://github.com/dependabot/dependabot-core/pull/15440) in upstream dependabot-core. When that PR merges, you can switch to the native Dependabot experience.
 
 ## Quickstart
 
