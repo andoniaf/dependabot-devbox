@@ -44,6 +44,7 @@ runs:
         GITHUB_ACCESS_TOKEN: ${{ inputs.github-token }}
         GITHUB_REPOSITORY: ${{ github.repository }}
         DIRECTORY_PATH: ${{ inputs.directory }}
-        BASE_BRANCH: ${{ inputs.base-branch }}
         GROUP_UPDATES: ${{ inputs.group-updates }}
-      run: dependabot-devbox-update
+      run: |
+        [ -n "${{ inputs.base-branch }}" ] && export BASE_BRANCH="${{ inputs.base-branch }}"
+        dependabot-devbox-update
