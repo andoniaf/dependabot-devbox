@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |spec|
   spec.name        = "dependabot-devbox"
-  spec.version     = "0.1.0"
+  spec.version     = "0.1.1"
   spec.summary     = "Dependabot support for Devbox"
   spec.description = "Automatically update Devbox (devbox.json) package versions via Dependabot. " \
                      "Standalone gem for use before official dependabot-core support lands."

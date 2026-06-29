@@ -94,11 +94,15 @@ if group
       label_language: true
     )
 
-    pr = pr_creator.create
-    if pr
-      puts "PR created: #{pr.html_url}"
-    else
-      puts "PR already exists or no changes needed"
+    begin
+      pr = pr_creator.create
+      if pr
+        puts "PR created: #{pr.html_url}"
+      else
+        puts "PR already exists or no changes needed"
+      end
+    rescue Dependabot::PullRequestCreator::UnmergedPRExists => e
+      puts "Skipping: #{e.message} (closed but not merged — delete the branch to recreate)"
     end
   end
 else
@@ -123,11 +127,15 @@ else
       label_language: true
     )
 
-    pr = pr_creator.create
-    if pr
-      puts "  PR created: #{pr.html_url}"
-    else
-      puts "  PR already exists or no changes needed"
+    begin
+      pr = pr_creator.create
+      if pr
+        puts "  PR created: #{pr.html_url}"
+      else
+        puts "  PR already exists or no changes needed"
+      end
+    rescue Dependabot::PullRequestCreator::UnmergedPRExists => e
+      puts "  Skipping: #{e.message} (closed but not merged — delete the branch to recreate)"
     end
   end
 end
