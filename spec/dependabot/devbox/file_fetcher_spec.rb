@@ -55,7 +55,7 @@ RSpec.describe Dependabot::Devbox::FileFetcher do
     end
 
     before do
-      allow(file_fetcher_instance).to receive_messages(commit: "sha", allow_beta_ecosystems?: true)
+      allow(file_fetcher_instance).to receive_messages(commit: "sha")
       allow(file_fetcher_instance).to receive(:clone_repo_contents).and_return(repo_contents_path)
     end
 
@@ -70,14 +70,6 @@ RSpec.describe Dependabot::Devbox::FileFetcher do
 
       it "fetches just the manifest" do
         expect(file_fetcher_instance.files.map(&:name)).to contain_exactly("devbox.json")
-      end
-    end
-
-    context "when beta ecosystems are not enabled" do
-      before { allow(file_fetcher_instance).to receive(:allow_beta_ecosystems?).and_return(false) }
-
-      it "raises DependencyFileNotFound" do
-        expect { file_fetcher_instance.files }.to raise_error(Dependabot::DependencyFileNotFound)
       end
     end
   end

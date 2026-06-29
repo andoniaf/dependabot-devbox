@@ -22,6 +22,7 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = ">= 3.3.0"
   spec.require_path = "lib"
   spec.files        = Dir["lib/**/*"]
+  spec.bindir       = "exe"
   spec.executables  = ["dependabot-devbox-update"]
 
   spec.add_dependency "dependabot-common", "~> 0.383"

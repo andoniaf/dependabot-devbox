@@ -28,11 +28,19 @@ Metrics/BlockLength:
     - "spec/**/*"
 Metrics/ClassLength:
   Max: 300
+Metrics/CyclomaticComplexity:
+  Max: 10
 Metrics/MethodLength:
   Max: 30
+Metrics/PerceivedComplexity:
+  Max: 10
 
+Style/Documentation:
+  Enabled: false
 Style/FrozenStringLiteralComment:
   Enabled: true
+Style/PercentLiteralDelimiters:
+  Enabled: false
 Style/StringLiterals:
   EnforcedStyle: double_quotes
 
@@ -40,8 +48,13 @@ Sorbet/StrictSigil:
   Enabled: false
 Sorbet/ValidSigil:
   Enabled: false
+Sorbet/BlockMethodDefinition:
+  Exclude:
+    - "spec/**/*"
 
 RSpec/ExampleLength:
   Max: 25
 RSpec/MultipleExpectations:
   Max: 5
+RSpec/MultipleMemoizedHelpers:
+  Max: 10
