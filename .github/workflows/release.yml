@@ -23,7 +23,7 @@ jobs:
           ruby-version: "3.3"
           bundler-cache: true
 
-      - uses: rubygems/configure-rubygems-credentials@v1
+      - uses: rubygems/configure-rubygems-credentials@v1.0.0
 
       - name: Build and publish gem
         run: |
