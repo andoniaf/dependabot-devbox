@@ -12,6 +12,7 @@ repo      = ENV.fetch("GITHUB_REPOSITORY")
 token     = ENV["GITHUB_ACCESS_TOKEN"] || ENV.fetch("GITHUB_TOKEN")
 directory = ENV.fetch("DIRECTORY_PATH", "/")
 branch    = ENV.fetch("BASE_BRANCH", nil)
+group     = ENV.fetch("GROUP_UPDATES", "false") == "true"
 
 credentials = [
   {
@@ -49,7 +50,7 @@ parser = Dependabot::FileParsers.for_package_manager("devbox").new(
 dependencies = parser.parse
 puts "Found #{dependencies.length} devbox package(s)"
 
-dependencies.each do |dep| # rubocop:disable Metrics/BlockLength
+def check_dep(dep, files, credentials)
   puts "Checking #{dep.name} (#{dep.version})..."
 
   checker = Dependabot::UpdateCheckers.for_package_manager("devbox").new(
@@ -58,43 +59,76 @@ dependencies.each do |dep| # rubocop:disable Metrics/BlockLength
     credentials: credentials
   )
 
-  if checker.up_to_date?
-    puts "  up to date"
-    next
-  end
+  return nil if checker.up_to_date? && puts("  up to date")
 
   requirements_to_unlock = checker.requirements_unlocked_or_can_be? ? :own : :none
 
-  updated_deps =
-    begin
-      checker.updated_dependencies(requirements_to_unlock: requirements_to_unlock)
-    rescue Dependabot::AllVersionsIgnored
-      puts "  all versions ignored"
-      next
-    end
+  begin
+    checker.updated_dependencies(requirements_to_unlock: requirements_to_unlock)
+  rescue Dependabot::AllVersionsIgnored
+    puts "  all versions ignored"
+    nil
+  end
+end
 
-  updater = Dependabot::FileUpdaters.for_package_manager("devbox").new(
-    dependencies: updated_deps,
-    dependency_files: files,
-    credentials: credentials
-  )
+if group
+  all_updated_deps = dependencies.filter_map { |dep| check_dep(dep, files, credentials) }.flatten
 
-  updated_files = updater.updated_dependency_files
-
-  pr_creator = Dependabot::PullRequestCreator.new(
-    source: source,
-    base_commit: commit,
-    dependencies: updated_deps,
-    files: updated_files,
-    credentials: credentials,
-    label_language: true
-  )
-
-  pr = pr_creator.create
-  if pr
-    puts "  PR created: #{pr.html_url}"
+  if all_updated_deps.empty?
+    puts "All packages up to date."
   else
-    puts "  PR already exists or no changes needed"
+    updater = Dependabot::FileUpdaters.for_package_manager("devbox").new(
+      dependencies: all_updated_deps,
+      dependency_files: files,
+      credentials: credentials
+    )
+
+    updated_files = updater.updated_dependency_files
+
+    pr_creator = Dependabot::PullRequestCreator.new(
+      source: source,
+      base_commit: commit,
+      dependencies: all_updated_deps,
+      files: updated_files,
+      credentials: credentials,
+      label_language: true
+    )
+
+    pr = pr_creator.create
+    if pr
+      puts "PR created: #{pr.html_url}"
+    else
+      puts "PR already exists or no changes needed"
+    end
+  end
+else
+  dependencies.each do |dep| # rubocop:disable Metrics/BlockLength
+    updated_deps = check_dep(dep, files, credentials)
+    next unless updated_deps
+
+    updater = Dependabot::FileUpdaters.for_package_manager("devbox").new(
+      dependencies: updated_deps,
+      dependency_files: files,
+      credentials: credentials
+    )
+
+    updated_files = updater.updated_dependency_files
+
+    pr_creator = Dependabot::PullRequestCreator.new(
+      source: source,
+      base_commit: commit,
+      dependencies: updated_deps,
+      files: updated_files,
+      credentials: credentials,
+      label_language: true
+    )
+
+    pr = pr_creator.create
+    if pr
+      puts "  PR created: #{pr.html_url}"
+    else
+      puts "  PR already exists or no changes needed"
+    end
   end
 end
 
