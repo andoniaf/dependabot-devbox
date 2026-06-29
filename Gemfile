@@ -4,10 +4,6 @@ source "https://rubygems.org"
 
 gemspec
 
-group :development do
-  gem "rake"
-end
-
 group :development, :test do
   gem "rspec", "~> 3.13"
   gem "rspec-its", "~> 1.3"
