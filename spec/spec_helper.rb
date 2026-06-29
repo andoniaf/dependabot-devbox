@@ -40,7 +40,7 @@ VCR.configure do |config|
     interaction.response.headers.transform_keys!(&:downcase).delete("set-cookie")
     interaction.request.headers.transform_keys!(&:downcase).delete("authorization")
     uri = URI.parse(interaction.request.uri)
-    interaction.request.uri.sub!(%r{:\/\/.*#{Regexp.escape(uri.host)}}, "://#{uri.host}")
+    interaction.request.uri.sub!(%r{://.*#{Regexp.escape(uri.host)}}, "://#{uri.host}")
   end
 
   record_mode = ENV["VCR"] ? ENV["VCR"].to_sym : :none
@@ -53,7 +53,7 @@ end
 
 def build_tmp_repo(project, path: "projects", tmp_dir_path: nil, tmp_dir_prefix: nil)
   require "dependabot/utils"
-  tmp_dir_path  ||= Dependabot::Utils::BUMP_TMP_DIR_PATH
+  tmp_dir_path ||= Dependabot::Utils::BUMP_TMP_DIR_PATH
   tmp_dir_prefix ||= Dependabot::Utils::BUMP_TMP_FILE_PREFIX
 
   project_path = File.expand_path(File.join("spec/fixtures", path, project))
@@ -88,7 +88,7 @@ def project_dependency_files(project, directory: "/")
 end
 
 def github_credentials
-  token = ENV["DEPENDABOT_TEST_ACCESS_TOKEN"] || ENV["LOCAL_GITHUB_ACCESS_TOKEN"]
+  token = ENV["DEPENDABOT_TEST_ACCESS_TOKEN"] || ENV.fetch("LOCAL_GITHUB_ACCESS_TOKEN", nil)
   return [] unless token
 
   [{ "type" => "git_source", "host" => "github.com", "username" => "x-access-token", "password" => token }]

@@ -11,12 +11,12 @@ require "dependabot/devbox"
 repo      = ENV.fetch("GITHUB_REPOSITORY")
 token     = ENV["GITHUB_ACCESS_TOKEN"] || ENV.fetch("GITHUB_TOKEN")
 directory = ENV.fetch("DIRECTORY_PATH", "/")
-branch    = ENV["BASE_BRANCH"]
+branch    = ENV.fetch("BASE_BRANCH", nil)
 
 credentials = [
   {
-    "type"     => "git_source",
-    "host"     => "github.com",
+    "type" => "git_source",
+    "host" => "github.com",
     "username" => "x-access-token",
     "password" => token
   }
@@ -29,7 +29,8 @@ source = Dependabot::Source.new(
   branch: branch
 )
 
-puts "Fetching devbox files from #{repo}#{directory == '/' ? '' : " (#{directory})"}"
+location = directory == "/" ? repo : "#{repo} (#{directory})"
+puts "Fetching devbox files from #{location}"
 
 fetcher = Dependabot::FileFetchers.for_package_manager("devbox").new(
   source: source,
@@ -48,7 +49,7 @@ parser = Dependabot::FileParsers.for_package_manager("devbox").new(
 dependencies = parser.parse
 puts "Found #{dependencies.length} devbox package(s)"
 
-dependencies.each do |dep|
+dependencies.each do |dep| # rubocop:disable Metrics/BlockLength
   puts "Checking #{dep.name} (#{dep.version})..."
 
   checker = Dependabot::UpdateCheckers.for_package_manager("devbox").new(
