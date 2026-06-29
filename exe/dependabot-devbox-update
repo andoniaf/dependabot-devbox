@@ -11,7 +11,7 @@ require "dependabot/devbox"
 repo      = ENV.fetch("GITHUB_REPOSITORY")
 token     = ENV["GITHUB_ACCESS_TOKEN"] || ENV.fetch("GITHUB_TOKEN")
 directory = ENV.fetch("DIRECTORY_PATH", "/")
-branch    = ENV.fetch("BASE_BRANCH", nil)
+branch    = ENV["BASE_BRANCH"].then { |b| b&.empty? ? nil : b }
 group     = ENV.fetch("GROUP_UPDATES", "false") == "true"
 
 credentials = [
