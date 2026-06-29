@@ -17,6 +17,10 @@ inputs:
     description: "Pin a specific dependabot-devbox gem version (e.g. '0.1.0'). Defaults to latest."
     required: false
     default: ""
+  group-updates:
+    description: "Open a single grouped PR for all outdated packages instead of one PR per package."
+    required: false
+    default: "false"
 
 runs:
   using: "composite"
@@ -41,4 +45,5 @@ runs:
         GITHUB_REPOSITORY: ${{ github.repository }}
         DIRECTORY_PATH: ${{ inputs.directory }}
         BASE_BRANCH: ${{ inputs.base-branch }}
+        GROUP_UPDATES: ${{ inputs.group-updates }}
       run: dependabot-devbox-update
