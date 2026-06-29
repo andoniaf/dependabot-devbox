@@ -9,6 +9,7 @@ require "rspec/sorbet"
 require "dependabot/dependency_file"
 require "dependabot/experiments"
 require "dependabot/registry_client"
+require "dependabot/devbox"
 
 ENV["GIT_AUTHOR_NAME"] = "dependabot-ci"
 ENV["GIT_AUTHOR_EMAIL"] = "no-reply@github.com"

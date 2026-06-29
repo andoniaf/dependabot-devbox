@@ -15,7 +15,7 @@ module Dependabot
       def validate_package_manager!(package_manager)
         return if package_manager == "devbox"
         return if Config::File::REVERSE_PACKAGE_MANAGER_LOOKUP.key?(package_manager)
-        return if package_manager == "dummy" || package_manager == "silent"
+        return if %w[dummy silent].include?(package_manager)
 
         raise "Unsupported package_manager #{package_manager}"
       end
