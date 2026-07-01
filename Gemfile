@@ -6,7 +6,7 @@ gemspec
 
 group :development, :test do
   gem "rspec", "~> 3.13"
-  gem "rspec-its", "~> 1.3"
+  gem "rspec-its", "~> 2.0"
   gem "rspec-sorbet", "~> 1.9"
   gem "rubocop", "~> 1.70"
   gem "rubocop-performance", "~> 1.23"
