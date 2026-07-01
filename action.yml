@@ -35,6 +35,7 @@ runs:
 
     - name: Install dependabot-devbox
       shell: bash
+      # zizmor: ignore[adhoc-packages] -- this action's entire purpose is to install and run the dependabot-devbox CLI
       run: |
         if [ -n "${INPUTS_GEM_VERSION}" ]; then
           gem install dependabot-devbox -v "${INPUTS_GEM_VERSION}"
