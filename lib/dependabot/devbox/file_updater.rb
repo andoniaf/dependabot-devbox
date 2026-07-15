@@ -14,9 +14,9 @@ module Dependabot
     class FileUpdater < Dependabot::FileUpdaters::Base
       extend T::Sig
 
-      MANIFEST_FILENAME = T.let("devbox.json", String)
-      LOCKFILE_FILENAME = T.let("devbox.lock", String)
-      LATEST = T.let("latest", String)
+      MANIFEST_FILENAME = "devbox.json"
+      LOCKFILE_FILENAME = "devbox.lock"
+      LATEST = "latest"
 
       sig { override.returns(T::Array[Dependabot::DependencyFile]) }
       def updated_dependency_files

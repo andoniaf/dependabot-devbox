@@ -13,7 +13,7 @@ module Dependabot
 
       require_relative "update_checker/latest_version_finder"
 
-      LATEST = T.let("latest", String)
+      LATEST = "latest"
 
       sig { override.returns(T.nilable(T.any(String, Gem::Version))) }
       def latest_version

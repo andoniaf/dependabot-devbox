@@ -32,6 +32,7 @@ require "dependabot/devbox/package/package_details_fetcher"
 require "dependabot/devbox/helpers"
 require "dependabot/devbox/version"
 require "dependabot/devbox/requirement"
+require "dependabot/devbox/update_runner"
 
 require "dependabot/pull_request_creator/labeler"
 Dependabot::PullRequestCreator::Labeler

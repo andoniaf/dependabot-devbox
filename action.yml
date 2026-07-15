@@ -18,9 +18,15 @@ inputs:
     required: false
     default: ""
   group-updates:
-    description: "Open a single grouped PR for all outdated packages instead of one PR per package."
+    description: >-
+      Group minor/patch updates into a single PR; each major update still gets its own PR.
+      When "false", every update (major or not) gets its own PR.
     required: false
     default: "false"
+  cooldown-days:
+    description: "Skip a package version until it has been released for this many days. Set to 0 to disable."
+    required: false
+    default: "7"
 
 runs:
   using: "composite"
@@ -52,6 +58,7 @@ runs:
         GITHUB_REPOSITORY: ${{ github.repository }}
         DIRECTORY_PATH: ${{ inputs.directory }}
         GROUP_UPDATES: ${{ inputs.group-updates }}
+        COOLDOWN_DAYS: ${{ inputs.cooldown-days }}
         INPUTS_BASE_BRANCH: ${{ inputs.base-branch }}
       run: |
         [ -n "${INPUTS_BASE_BRANCH}" ] && export BASE_BRANCH="${INPUTS_BASE_BRANCH}"

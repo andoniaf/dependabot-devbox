@@ -13,12 +13,12 @@ module Dependabot
     class FileParser < Dependabot::FileParsers::Base
       extend T::Sig
 
-      ECOSYSTEM = T.let("devbox", String)
-      MANIFEST_FILENAME = T.let("devbox.json", String)
-      LOCKFILE_FILENAME = T.let("devbox.lock", String)
+      ECOSYSTEM = "devbox"
+      MANIFEST_FILENAME = "devbox.json"
+      LOCKFILE_FILENAME = "devbox.lock"
       # An entry without an "@constraint" suffix tracks the newest release.
-      DEFAULT_CONSTRAINT = T.let("latest", String)
-      SOURCE_TYPE = T.let("nixhub", String)
+      DEFAULT_CONSTRAINT = "latest"
+      SOURCE_TYPE = "nixhub"
 
       sig { override.returns(T::Array[Dependabot::Dependency]) }
       def parse
