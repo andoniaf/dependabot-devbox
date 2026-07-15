@@ -12,7 +12,7 @@ module Dependabot
     class MetadataFinder < Dependabot::MetadataFinders::Base
       extend T::Sig
 
-      SEARCH_URL = T.let("https://search.devbox.sh/v1/search", String)
+      SEARCH_URL = "https://search.devbox.sh/v1/search"
 
       private
 

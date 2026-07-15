@@ -15,7 +15,7 @@ module Dependabot
       class PackageDetailsFetcher
         extend T::Sig
 
-        SEARCH_URL = T.let("https://search.devbox.sh/v1/search", String)
+        SEARCH_URL = "https://search.devbox.sh/v1/search"
 
         sig { params(dependency: Dependabot::Dependency).void }
         def initialize(dependency:)
