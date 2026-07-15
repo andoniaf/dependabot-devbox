@@ -20,7 +20,7 @@ module Dependabot
       # A value that sorts above any realistic nixpkgs version, used as the
       # internal representation of the "latest" sentinel since Gem::Version
       # cannot parse the word itself.
-      LATEST_SENTINEL = T.let("999999", String)
+      LATEST_SENTINEL = "999999"
 
       sig { override.params(version: VersionParameter).returns(T::Boolean) }
       def self.correct?(version)

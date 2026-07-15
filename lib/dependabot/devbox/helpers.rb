@@ -15,15 +15,12 @@ module Dependabot
       # block comment, or a trailing comma. The alternation lets gsub preserve
       # strings while stripping the JSONC-only constructs, so e.g. "//" inside a
       # URL value is not mistaken for the start of a comment.
-      JSONC_TOKEN = T.let(
-        %r{
+      JSONC_TOKEN = %r{
           ("(?:\\.|[^"\\])*")    # JSON string literal
           | //[^\n]*             # line comment
           | /\*.*?\*/            # block comment
           | ,(?=\s*[\}\]])       # trailing comma
-        }mx,
-        Regexp
-      )
+        }mx
 
       sig { params(raw: T.nilable(String)).returns(T::Array[String]) }
       def self.parse_exclude_list(raw)

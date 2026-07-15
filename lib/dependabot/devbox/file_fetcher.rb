@@ -9,8 +9,8 @@ module Dependabot
     class FileFetcher < Dependabot::FileFetchers::Base
       extend T::Sig
 
-      MANIFEST_FILENAME = T.let("devbox.json", String)
-      LOCKFILE_FILENAME = T.let("devbox.lock", String)
+      MANIFEST_FILENAME = "devbox.json"
+      LOCKFILE_FILENAME = "devbox.lock"
 
       sig { override.returns(String) }
       def self.required_files_message
