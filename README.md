@@ -40,6 +40,7 @@ That's it. On each run it will:
 | `directory` | no | `/` | Path to the directory containing `devbox.json` |
 | `base-branch` | no | repo default | Branch to open PRs against |
 | `gem-version` | no | latest | Pin a specific `dependabot-devbox` gem version |
+| `exclude-packages` | no | — | Space/comma-separated package names to skip (e.g. `"go nodejs"`) |
 
 ## Multiple directories
 
@@ -55,6 +56,16 @@ steps:
     with:
       github-token: ${{ secrets.GITHUB_TOKEN }}
       directory: ${{ matrix.directory }}
+```
+
+## Excluding packages
+
+Skip specific packages, e.g. one you pin and bump by hand:
+
+```yaml
+with:
+  github-token: ${{ secrets.GITHUB_TOKEN }}
+  exclude-packages: "go nodejs"
 ```
 
 ## Using the gem directly

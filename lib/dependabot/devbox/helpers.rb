@@ -25,6 +25,13 @@ module Dependabot
         Regexp
       )
 
+      sig { params(raw: T.nilable(String)).returns(T::Array[String]) }
+      def self.parse_exclude_list(raw)
+        return [] unless raw
+
+        raw.split(/[\s,]+/).reject(&:empty?).uniq
+      end
+
       sig { params(content: T.nilable(String)).returns(T::Hash[String, Object]) }
       def self.parse_json_or_jsonc(content)
         return {} unless content

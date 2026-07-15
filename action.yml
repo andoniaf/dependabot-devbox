@@ -21,6 +21,10 @@ inputs:
     description: "Open a single grouped PR for all outdated packages instead of one PR per package."
     required: false
     default: "false"
+  exclude-packages:
+    description: "Space/comma-separated list of package names to skip (e.g. 'go nodejs')."
+    required: false
+    default: ""
 
 runs:
   using: "composite"
@@ -53,6 +57,7 @@ runs:
         DIRECTORY_PATH: ${{ inputs.directory }}
         GROUP_UPDATES: ${{ inputs.group-updates }}
         INPUTS_BASE_BRANCH: ${{ inputs.base-branch }}
+        EXCLUDE_PACKAGES: ${{ inputs.exclude-packages }}
       run: |
         [ -n "${INPUTS_BASE_BRANCH}" ] && export BASE_BRANCH="${INPUTS_BASE_BRANCH}"
         dependabot-devbox-update
