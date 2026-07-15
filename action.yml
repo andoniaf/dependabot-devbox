@@ -23,6 +23,10 @@ inputs:
       When "false", every update (major or not) gets its own PR.
     required: false
     default: "false"
+  exclude-packages:
+    description: "Space/comma-separated list of package names to skip (e.g. 'go nodejs')."
+    required: false
+    default: ""
   cooldown-days:
     description: "Skip a package version until it has been released for this many days. Set to 0 to disable."
     required: false
@@ -60,6 +64,7 @@ runs:
         GROUP_UPDATES: ${{ inputs.group-updates }}
         COOLDOWN_DAYS: ${{ inputs.cooldown-days }}
         INPUTS_BASE_BRANCH: ${{ inputs.base-branch }}
+        EXCLUDE_PACKAGES: ${{ inputs.exclude-packages }}
       run: |
         [ -n "${INPUTS_BASE_BRANCH}" ] && export BASE_BRANCH="${INPUTS_BASE_BRANCH}"
         dependabot-devbox-update

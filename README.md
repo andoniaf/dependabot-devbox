@@ -42,6 +42,7 @@ That's it. On each run it will:
 | `gem-version` | no | latest | Pin a specific `dependabot-devbox` gem version |
 | `group-updates` | no | `false` | Group minor/patch updates into a single PR; each major update still gets its own PR. When `false`, every update (major or not) gets its own PR. |
 | `cooldown-days` | no | `7` | Skip a package version until it has been released for this many days. Set to `0` to disable. |
+| `exclude-packages` | no | — | Space/comma-separated package names to skip (e.g. `"go nodejs"`) |
 
 ### Grouping and cooldown
 
@@ -69,6 +70,16 @@ steps:
     with:
       github-token: ${{ secrets.GITHUB_TOKEN }}
       directory: ${{ matrix.directory }}
+```
+
+## Excluding packages
+
+Skip specific packages, e.g. one you pin and bump by hand:
+
+```yaml
+with:
+  github-token: ${{ secrets.GITHUB_TOKEN }}
+  exclude-packages: "go nodejs"
 ```
 
 ## Using the gem directly

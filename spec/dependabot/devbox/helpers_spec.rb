@@ -45,6 +45,32 @@ RSpec.describe Dependabot::Devbox::Helpers do
     end
   end
 
+  describe ".parse_exclude_list" do
+    it "returns an empty array for nil" do
+      expect(described_class.parse_exclude_list(nil)).to eq([])
+    end
+
+    it "returns an empty array for an empty string" do
+      expect(described_class.parse_exclude_list("")).to eq([])
+    end
+
+    it "splits on whitespace" do
+      expect(described_class.parse_exclude_list("go nodejs")).to eq(%w[go nodejs])
+    end
+
+    it "splits on commas" do
+      expect(described_class.parse_exclude_list("go,nodejs")).to eq(%w[go nodejs])
+    end
+
+    it "splits on mixed whitespace and commas" do
+      expect(described_class.parse_exclude_list(" go,  nodejs ,ripgrep\n")).to eq(%w[go nodejs ripgrep])
+    end
+
+    it "dedupes repeated names" do
+      expect(described_class.parse_exclude_list("go go nodejs")).to eq(%w[go nodejs])
+    end
+  end
+
   describe ".run_devbox_command" do
     let(:dir) { "/tmp/some-dir" }
 

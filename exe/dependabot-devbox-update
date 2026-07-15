@@ -52,6 +52,12 @@ parser = Dependabot::FileParsers.for_package_manager("devbox").new(
 dependencies = parser.parse
 puts "Found #{dependencies.length} devbox package(s)"
 
+excluded = Dependabot::Devbox::Helpers.parse_exclude_list(ENV.fetch("EXCLUDE_PACKAGES", nil))
+unless excluded.empty?
+  skipped, dependencies = dependencies.partition { |d| excluded.include?(d.name) }
+  skipped.each { |d| puts "Excluding #{d.name} (matched exclude-packages)" }
+end
+
 if group
   all_updated_deps = dependencies.filter_map do |dep|
     Dependabot::Devbox::UpdateRunner.check_dependency(dep, files, credentials, cooldown)
