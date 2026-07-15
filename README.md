@@ -1,5 +1,7 @@
 # dependabot-devbox
 
+[![Gem Version](https://badge.fury.io/rb/dependabot-devbox.svg)](https://badge.fury.io/rb/dependabot-devbox)
+
 Automatically update [Devbox](https://www.jetify.com/devbox) package versions and open PRs — just like Dependabot, but for `devbox.json`.
 
 This is a standalone implementation of devbox ecosystem support built on top of `dependabot-common`. It exists while [official support is pending](https://github.com/dependabot/dependabot-core/pull/15440) in upstream dependabot-core. When that PR merges, you can switch to the native Dependabot experience.
