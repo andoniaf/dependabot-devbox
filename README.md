@@ -34,17 +34,52 @@ That's it. On each run it will:
 2. Check Nixhub for newer versions of each package
 3. Open a separate PR for every package that can be updated
 
+Heads-up: PRs opened with the default `GITHUB_TOKEN` won't trigger your CI — see [Choosing a token](#choosing-a-token).
+
 ## Inputs
 
 | Input | Required | Default | Description |
 |---|---|---|---|
-| `github-token` | yes | — | Token used to open PRs (`secrets.GITHUB_TOKEN` works) |
+| `github-token` | yes | — | Token used to open PRs (see [Choosing a token](#choosing-a-token)) — the default `GITHUB_TOKEN` works but won't trigger CI on the PRs |
 | `directory` | no | `/` | Path to the directory containing `devbox.json` |
 | `base-branch` | no | repo default | Branch to open PRs against |
 | `gem-version` | no | latest | Pin a specific `dependabot-devbox` gem version |
 | `group-updates` | no | `false` | Group minor/patch updates into a single PR; each major update still gets its own PR. When `false`, every update (major or not) gets its own PR. |
 | `cooldown-days` | no | `7` | Skip a package version until it has been released for this many days. Set to `0` to disable. |
 | `exclude-packages` | no | — | Space/comma-separated package names to skip (e.g. `"go nodejs"`) |
+
+### Choosing a token
+
+With the default `secrets.GITHUB_TOKEN`, update PRs open fine but never trigger your `on: pull_request` workflows — the Checks tab stays empty and dependency bumps get no CI signal. These are two separate restrictions that are easy to conflate: the repo/org setting "Allow GitHub Actions to create and approve pull requests" only controls whether the PR can be *created*; GitHub deliberately never runs workflows on events caused by `GITHUB_TOKEN` (an anti-recursion rule with no opt-out). To get CI on the update PRs, pass a different token:
+
+**Fine-grained PAT** — simplest for a single repo. Create a [fine-grained personal access token](https://github.com/settings/personal-access-tokens) with **Contents: Read and write** and **Pull requests: Read and write** on the target repo, store it as a secret, and pass it in:
+
+```yaml
+- uses: andoniaf/dependabot-devbox@v0
+  with:
+    github-token: ${{ secrets.DEVBOX_UPDATE_TOKEN }}
+```
+
+Trade-offs: tied to a user account, expires, and needs manual rotation.
+
+**GitHub App token** — recommended, especially org-wide. Register a GitHub App with the same two permissions (Contents + Pull requests, read/write), generate a private key, install the App on the repo, and store the App ID and private key as secrets. Then mint a short-lived token per run with [`actions/create-github-app-token`](https://github.com/actions/create-github-app-token):
+
+```yaml
+steps:
+  - uses: actions/checkout@v4
+  - uses: actions/create-github-app-token@v2
+    id: app-token
+    with:
+      app-id: ${{ secrets.DEVBOX_APP_ID }}
+      private-key: ${{ secrets.DEVBOX_APP_PRIVATE_KEY }}
+  - uses: andoniaf/dependabot-devbox@v0
+    with:
+      github-token: ${{ steps.app-token.outputs.token }}
+```
+
+Not tied to a person, tokens auto-expire per run (no rotation), and PRs get a clean bot identity. The trade-off is more upfront setup.
+
+Note: PRs opened with a PAT or App token are attributed to that user/bot, not `dependabot[bot]` — so workflow jobs gated on `github.actor != 'dependabot[bot]'` will run on these PRs.
 
 ### Grouping and cooldown
 
