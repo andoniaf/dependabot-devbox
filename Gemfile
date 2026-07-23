@@ -12,7 +12,7 @@ group :development, :test do
   gem "rubocop-performance", "~> 1.23"
   gem "rubocop-rspec", "~> 3.4"
   gem "rubocop-sorbet", "~> 0.8"
-  gem "simplecov", "~> 0.22", require: false
+  gem "simplecov", "~> 1.0", require: false
   gem "sorbet-runtime"
   gem "vcr", "~> 6.3"
   gem "webmock", "~> 3.23"
