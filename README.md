@@ -52,7 +52,7 @@ Heads-up: PRs opened with the default `GITHUB_TOKEN` won't trigger your CI — s
 
 With the default `secrets.GITHUB_TOKEN`, update PRs open fine but never trigger your `on: pull_request` workflows — the Checks tab stays empty and dependency bumps get no CI signal. These are two separate restrictions that are easy to conflate: the repo/org setting "Allow GitHub Actions to create and approve pull requests" only controls whether the PR can be *created*; GitHub deliberately never runs workflows on events caused by `GITHUB_TOKEN` (an anti-recursion rule with no opt-out). To get CI on the update PRs, pass a different token:
 
-**Fine-grained PAT** — simplest for a single repo. Create a [fine-grained personal access token](https://github.com/settings/personal-access-tokens) with **Contents: Read and write** and **Pull requests: Read and write** on the target repo, store it as a secret, and pass it in:
+**Fine-grained PAT** — simplest for a single repo. Create a [fine-grained personal access token with the permissions pre-filled](https://github.com/settings/personal-access-tokens/new?name=dependabot-devbox&contents=write&pull_requests=write) (**Contents: Read and write** + **Pull requests: Read and write**), scope it to the target repo, store it as a secret, and pass it in:
 
 ```yaml
 - uses: andoniaf/dependabot-devbox@v0
@@ -62,7 +62,7 @@ With the default `secrets.GITHUB_TOKEN`, update PRs open fine but never trigger 
 
 Trade-offs: tied to a user account, expires, and needs manual rotation.
 
-**GitHub App token** — recommended, especially org-wide. Register a GitHub App with the same two permissions (Contents + Pull requests, read/write), generate a private key, install the App on the repo, and store the App ID and private key as secrets. Then mint a short-lived token per run with [`actions/create-github-app-token`](https://github.com/actions/create-github-app-token):
+**GitHub App token** — recommended, especially org-wide. [Register a GitHub App with the permissions pre-filled](https://github.com/settings/apps/new?name=devbox-updater&url=https://github.com/andoniaf/dependabot-devbox&contents=write&pull_requests=write&webhook_active=false) (for an org, use `https://github.com/organizations/YOUR-ORG/settings/apps/new?...` with the same query string), generate a private key, install the App on the repo, and store the App ID and private key as secrets. Then mint a short-lived token per run with [`actions/create-github-app-token`](https://github.com/actions/create-github-app-token):
 
 ```yaml
 steps:
