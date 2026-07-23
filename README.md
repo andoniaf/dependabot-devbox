@@ -62,7 +62,7 @@ With the default `secrets.GITHUB_TOKEN`, update PRs open fine but never trigger 
 
 Trade-offs: tied to a user account, expires, and needs manual rotation.
 
-**GitHub App token** — recommended, especially org-wide. [Register a GitHub App with the permissions pre-filled](https://github.com/settings/apps/new?name=devbox-updater&url=https://github.com/andoniaf/dependabot-devbox&contents=write&pull_requests=write&webhook_active=false) (for an org, use `https://github.com/organizations/YOUR-ORG/settings/apps/new?...` with the same query string), generate a private key, install the App on the repo, and store the App ID and private key as secrets. Then mint a short-lived token per run with [`actions/create-github-app-token`](https://github.com/actions/create-github-app-token):
+**GitHub App token** — recommended, especially org-wide. Register a GitHub App with the permissions pre-filled — [on your personal account](https://github.com/settings/apps/new?name=devbox-updater&url=https://github.com/andoniaf/dependabot-devbox&contents=write&pull_requests=write&webhook_active=false) or [in your organization](https://github.com/organizations/YOUR-ORG/settings/apps/new?name=devbox-updater&url=https://github.com/andoniaf/dependabot-devbox&contents=write&pull_requests=write&webhook_active=false) (replace `YOUR-ORG`) — generate a private key, install the App on the repo, and store the App ID and private key as secrets. Then mint a short-lived token per run with [`actions/create-github-app-token`](https://github.com/actions/create-github-app-token):
 
 ```yaml
 steps:
