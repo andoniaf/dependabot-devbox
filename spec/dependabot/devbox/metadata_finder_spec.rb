@@ -179,6 +179,32 @@ RSpec.describe Dependabot::Devbox::MetadataFinder do
     end
   end
 
+  context "when the attribute name has an uppercase first letter" do
+    let(:dependency_name) { "MyPkg" }
+
+    before do
+      stub_nixhub_with_attr(homepage: "https://example.com/docs", attr: "MyPkg")
+      # nixpkgs shards by the lowercased first two characters of the attr.
+      stub_request(:get, "https://raw.githubusercontent.com/NixOS/nixpkgs/master/pkgs/by-name/my/MyPkg/package.nix")
+        .to_return(status: 200, body: fixture("nixpkgs", "rev-pinned.package.nix"))
+    end
+
+    it "shards the by-name path using the lowercased prefix" do
+      expect(finder.source_url).to eq("https://github.com/example-org/example-repo")
+    end
+  end
+
+  context "when the attribute name contains path-traversal characters" do
+    let(:dependency_name) { "evil" }
+
+    before { stub_nixhub_with_attr(homepage: "https://example.com/docs", attr: "../../../etc/passwd") }
+
+    it "rejects the attribute without fetching any derivation" do
+      expect(finder.source_url).to be_nil
+      expect(a_request(:get, /raw\.githubusercontent\.com/)).not_to have_been_made
+    end
+  end
+
   context "when the homepage is a git host it is preferred over the by-name lookup" do
     let(:dependency_name) { "temporal-cli" }
 

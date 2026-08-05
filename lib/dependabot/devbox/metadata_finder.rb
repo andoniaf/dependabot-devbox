@@ -26,6 +26,11 @@ module Dependabot
       OWNER_ATTR = /\bowner\s*=\s*"([^"]+)"/
       REPO_ATTR = /\brepo\s*=\s*"([^"]+)"/
 
+      # nixpkgs attribute names are restricted to this character set; validate
+      # before interpolating into the raw.githubusercontent URL so a malformed
+      # or hostile Nixhub response can't build a path-traversing request.
+      VALID_ATTR = /\A[A-Za-z0-9][A-Za-z0-9._+-]*\z/
+
       private
 
       # nixpkgs packages expose a `homepage` in the Nixhub search response. When
@@ -54,7 +59,7 @@ module Dependabot
       sig { params(package: T::Hash[String, Object]).returns(T.nilable(Dependabot::Source)) }
       def source_from_nixpkgs(package)
         attr = attr_path_for(package)
-        return nil unless attr && attr.length >= 2
+        return nil unless attr && attr.length >= 2 && attr.match?(VALID_ATTR)
 
         contents = fetch_package_nix(attr)
         return nil unless contents
@@ -101,7 +106,7 @@ module Dependabot
 
       sig { params(attr: String).returns(T.nilable(String)) }
       def fetch_package_nix(attr)
-        prefix = attr[0, 2]
+        prefix = attr[0, 2].to_s.downcase
         response = Dependabot::RegistryClient.get(
           url: "#{NIXPKGS_BY_NAME_URL}/#{prefix}/#{attr}/package.nix"
         )
