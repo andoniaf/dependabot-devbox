@@ -24,6 +24,9 @@ RSpec.configure do |config|
   config.raise_errors_for_deprecations!
   config.example_status_persistence_file_path = ".rspec_status"
 
+  # Live network tests are opt-in: `bundle exec rspec --tag integration`.
+  config.filter_run_excluding :integration
+
   config.after do
     Dependabot::RegistryClient.clear_cache!
     Dependabot::Experiments.reset!

@@ -56,6 +56,11 @@ Sorbet/BlockMethodDefinition:
 
 RSpec/ExampleLength:
   Max: 25
+# Live integration specs are grouped by area under spec/integration rather than
+# mirroring a single class path.
+RSpec/SpecFilePathFormat:
+  Exclude:
+    - "spec/integration/**/*"
 RSpec/MultipleExpectations:
   Max: 5
 RSpec/MultipleMemoizedHelpers:
