@@ -4,6 +4,8 @@
 require "spec_helper"
 require "dependabot/devbox/helpers"
 require "dependabot/shared_helpers"
+require "dependabot/dependency_file"
+require "tmpdir"
 
 RSpec.describe Dependabot::Devbox::Helpers do
   describe ".parse_json_or_jsonc" do
@@ -74,17 +76,28 @@ RSpec.describe Dependabot::Devbox::Helpers do
   describe ".run_devbox_command" do
     let(:dir) { "/tmp/some-dir" }
 
-    it "delegates to SharedHelpers.run_shell_command with a scoped cache" do
+    before { allow(described_class).to receive(:devbox_available?).and_return(true) }
+
+    it "delegates to SharedHelpers.run_shell_command with a scoped devbox cache" do
       allow(Dependabot::SharedHelpers).to receive(:run_shell_command)
         .with(
           "devbox update python",
           cwd: dir,
-          env: hash_including("DEVBOX_CACHE" => "#{dir}/.devbox_cache")
+          env: { "DEVBOX_CACHE" => "#{dir}/.devbox_cache" }
         )
         .and_return("ok\n")
 
       result = described_class.run_devbox_command("update", "python", dir: dir)
       expect(result).to eq("ok\n")
+    end
+
+    it "leaves HOME alone so the host nix configuration and caches are used" do
+      allow(Dependabot::SharedHelpers).to receive(:run_shell_command).and_return("")
+
+      described_class.run_devbox_command("update", dir: dir)
+
+      expect(Dependabot::SharedHelpers).to have_received(:run_shell_command)
+        .with(anything, hash_including(env: hash_excluding("HOME", "XDG_CACHE_HOME")))
     end
 
     it "propagates HelperSubprocessFailed on non-zero exit" do
@@ -99,6 +112,46 @@ RSpec.describe Dependabot::Devbox::Helpers do
       expect do
         described_class.run_devbox_command("update", dir: dir)
       end.to raise_error(Dependabot::SharedHelpers::HelperSubprocessFailed, /boom/)
+    end
+
+    it "raises a clear error when the devbox CLI is not installed" do
+      allow(described_class).to receive(:devbox_available?).and_return(false)
+      allow(Dependabot::SharedHelpers).to receive(:run_shell_command)
+
+      expect { described_class.run_devbox_command("update", dir: dir) }
+        .to raise_error(Dependabot::DependabotError, /devbox CLI not found/)
+      expect(Dependabot::SharedHelpers).not_to have_received(:run_shell_command)
+    end
+  end
+
+  describe ".devbox_available?" do
+    it "is true when a devbox executable is on PATH" do
+      Dir.mktmpdir do |bin|
+        exe = File.join(bin, "devbox")
+        File.write(exe, "#!/bin/sh\n")
+        File.chmod(0o755, exe)
+        stub_const("ENV", ENV.to_h.merge("PATH" => bin))
+
+        expect(described_class.devbox_available?).to be true
+      end
+    end
+
+    it "is false when PATH has no devbox executable" do
+      Dir.mktmpdir do |bin|
+        stub_const("ENV", ENV.to_h.merge("PATH" => bin))
+
+        expect(described_class.devbox_available?).to be false
+      end
+    end
+  end
+
+  describe ".find_file" do
+    it "matches on the basename" do
+      manifest = Dependabot::DependencyFile.new(name: "services/api/devbox.json", content: "{}")
+      lockfile = Dependabot::DependencyFile.new(name: "services/api/devbox.lock", content: "{}")
+
+      expect(described_class.find_file([lockfile, manifest], "devbox.json")).to eq(manifest)
+      expect(described_class.find_file([manifest], "devbox.lock")).to be_nil
     end
   end
 end

@@ -4,6 +4,7 @@
 require "json"
 require "sorbet-runtime"
 
+require "dependabot/errors"
 require "dependabot/shared_helpers"
 
 module Dependabot
@@ -44,11 +45,28 @@ module Dependabot
         parsed
       end
 
+      # Finds the dependency file with the given basename, matching how the
+      # fetcher names files relative to the source directory.
+      sig do
+        params(files: T::Array[Dependabot::DependencyFile], filename: String)
+          .returns(T.nilable(Dependabot::DependencyFile))
+      end
+      def self.find_file(files, filename)
+        files.find { |f| File.basename(f.name) == filename }
+      end
+
+      sig { returns(T::Boolean) }
+      def self.devbox_available?
+        ENV.fetch("PATH", "").split(File::PATH_SEPARATOR).any? do |path|
+          File.executable?(File.join(path, "devbox"))
+        end
+      end
+
       # Wraps `devbox <args>` via Dependabot's standard subprocess helper, so
       # failures surface as Dependabot::SharedHelpers::HelperSubprocessFailed
-      # (consistent with cargo / bun / npm_and_yarn). The Devbox/Nix caches are
-      # scoped to the working directory so concurrent jobs don't trample each
-      # other's state.
+      # (consistent with cargo / bun / npm_and_yarn). Only devbox's own cache
+      # is scoped to the working directory: HOME is left alone so the nix
+      # configuration (access tokens) and nix caches of the host are used.
       sig do
         params(
           args: String,
@@ -56,14 +74,12 @@ module Dependabot
         ).returns(String)
       end
       def self.run_devbox_command(*args, dir:)
+        raise Dependabot::DependabotError, "devbox CLI not found on PATH" unless devbox_available?
+
         Dependabot::SharedHelpers.run_shell_command(
           "devbox #{args.join(' ')}",
           cwd: dir,
-          env: {
-            "DEVBOX_CACHE" => File.join(dir, ".devbox_cache"),
-            "XDG_CACHE_HOME" => File.join(dir, ".cache"),
-            "HOME" => dir
-          }
+          env: { "DEVBOX_CACHE" => File.join(dir, ".devbox_cache") }
         )
       end
     end
