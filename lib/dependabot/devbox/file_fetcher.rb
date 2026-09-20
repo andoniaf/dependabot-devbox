@@ -3,18 +3,16 @@
 
 require "dependabot/file_fetchers"
 require "dependabot/file_fetchers/base"
+require "dependabot/devbox/constants"
 
 module Dependabot
   module Devbox
     class FileFetcher < Dependabot::FileFetchers::Base
       extend T::Sig
 
-      MANIFEST_FILENAME = "devbox.json"
-      LOCKFILE_FILENAME = "devbox.lock"
-
       sig { override.returns(String) }
       def self.required_files_message
-        "Repo must contain a devbox.json."
+        "Repo must contain a #{MANIFEST_FILENAME}."
       end
 
       sig { override.params(filenames: T::Array[String]).returns(T::Boolean) }
