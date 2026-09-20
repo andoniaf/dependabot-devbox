@@ -1,0 +1,264 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://search.devbox.sh/v1/search?q=temporal-cli
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      user-agent:
+      - dependabot-core/0.396.0 excon/1.7.1 ruby/3.4.8 (arm64-darwin25) (+https://github.com/dependabot/dependabot-core)
+      accept-encoding:
+      - deflate, gzip
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json
+      vary:
+      - Origin, Accept-Encoding
+      content-encoding:
+      - ''
+      x-cloud-trace-context:
+      - 13b56cf900d87e6ce172b28a10c82804;o=1
+      date:
+      - Sun, 20 Sep 2026 10:51:16 GMT
+      server:
+      - Google Frontend
+    body:
+      encoding: UTF-8
+      string: '{"num_results":1,"packages":[{"name":"temporal-cli","num_versions":23,"versions":[{"commit_hash":"c27cdad491a991b11ed731760aa2ef8db0cb0410","last_updated":1787814960,"version":"1.8.2","platforms":["aarch64-darwin","aarch64-linux","x86_64-linux"],"summary":"Command-line
+        interface for running Temporal Server and interacting with Workflows, Activities,
+        Namespaces, and other parts of Temporal","homepage":"https://docs.temporal.io/cli","license":"MIT","name":"temporal-cli","systems":{"aarch64-darwin":{"commit_hash":"c27cdad491a991b11ed731760aa2ef8db0cb0410","system":"aarch64-darwin","last_updated":1787814960,"version":"1.8.2","store_hash":"240m9lc2r4mmm4hh5k53zmfbqf8ags7p","store_name":"temporal-cli","store_version":"1.8.2","meta_name":"temporal-cli-1.8.2","meta_version":[""],"attr_paths":["temporal-cli"],"platforms":["aarch64-darwin","aarch64-linux","x86_64-linux"],"programs":["temporal"],"summary":"Command-line
+        interface for running Temporal Server and interacting with Workflows, Activities,
+        Namespaces, and other parts of Temporal","homepage":"https://docs.temporal.io/cli","license":"MIT"}}},{"commit_hash":"9bc02893134c733dd85de46ee4fb2fac696b5529","last_updated":1785301185,"version":"1.8.1","platforms":["aarch64-darwin","aarch64-linux","x86_64-linux"],"summary":"Command-line
+        interface for running Temporal Server and interacting with Workflows, Activities,
+        Namespaces, and other parts of Temporal","homepage":"https://docs.temporal.io/cli","license":"MIT","name":"temporal-cli","systems":{"aarch64-darwin":{"commit_hash":"9bc02893134c733dd85de46ee4fb2fac696b5529","system":"aarch64-darwin","last_updated":1785301185,"version":"1.8.1","store_hash":"qrbi6nhdpg07xrhya98bx5xr1fs19xbr","store_name":"temporal-cli","store_version":"1.8.1","meta_name":"temporal-cli-1.8.1","meta_version":[""],"attr_paths":["temporal-cli"],"platforms":["aarch64-darwin","aarch64-linux","x86_64-linux"],"programs":["temporal"],"summary":"Command-line
+        interface for running Temporal Server and interacting with Workflows, Activities,
+        Namespaces, and other parts of Temporal","homepage":"https://docs.temporal.io/cli","license":"MIT"}}},{"commit_hash":"7525d999cd850b9a488817abc89c75dc733acf17","last_updated":1784783405,"version":"1.8.0","platforms":["aarch64-darwin","aarch64-linux","x86_64-linux"],"summary":"Command-line
+        interface for running Temporal Server and interacting with Workflows, Activities,
+        Namespaces, and other parts of Temporal","homepage":"https://docs.temporal.io/cli","license":"MIT","name":"temporal-cli","systems":{"aarch64-darwin":{"commit_hash":"7525d999cd850b9a488817abc89c75dc733acf17","system":"aarch64-darwin","last_updated":1784783405,"version":"1.8.0","store_hash":"98a89sxn0x1irblg15wcsmcgmxjdyb99","store_name":"temporal-cli","store_version":"1.8.0","meta_name":"temporal-cli-1.8.0","meta_version":[""],"attr_paths":["temporal-cli"],"platforms":["aarch64-darwin","aarch64-linux","x86_64-linux"],"programs":["temporal"],"summary":"Command-line
+        interface for running Temporal Server and interacting with Workflows, Activities,
+        Namespaces, and other parts of Temporal","homepage":"https://docs.temporal.io/cli","license":"MIT"}}},{"commit_hash":"389ed85304b281ca7f306cf8a1eb4378651ca44e","last_updated":1783545186,"version":"1.7.2","platforms":["aarch64-darwin","aarch64-linux","x86_64-linux"],"summary":"Command-line
+        interface for running Temporal Server and interacting with Workflows, Activities,
+        Namespaces, and other parts of Temporal","homepage":"https://docs.temporal.io/cli","license":"MIT","name":"temporal-cli","systems":{"aarch64-darwin":{"commit_hash":"389ed85304b281ca7f306cf8a1eb4378651ca44e","system":"aarch64-darwin","last_updated":1783545186,"version":"1.7.2","store_hash":"m0hnvxa056xn0hkrn9fbdkbw6ccakq5g","store_name":"temporal-cli","store_version":"1.7.2","meta_name":"temporal-cli-1.7.2","meta_version":[""],"attr_paths":["temporal-cli"],"platforms":["aarch64-darwin","aarch64-linux","x86_64-linux"],"programs":["temporal"],"summary":"Command-line
+        interface for running Temporal Server and interacting with Workflows, Activities,
+        Namespaces, and other parts of Temporal","homepage":"https://docs.temporal.io/cli","license":"MIT"}}},{"commit_hash":"b3c092d3c36d91e2f61f3dfb39a159f180a56659","last_updated":1782118813,"version":"1.7.1","platforms":["aarch64-darwin","aarch64-linux","x86_64-darwin","x86_64-linux"],"summary":"Command-line
+        interface for running Temporal Server and interacting with Workflows, Activities,
+        Namespaces, and other parts of Temporal","homepage":"https://docs.temporal.io/cli","license":"MIT","name":"temporal-cli","systems":{"aarch64-darwin":{"commit_hash":"b3c092d3c36d91e2f61f3dfb39a159f180a56659","system":"aarch64-darwin","last_updated":1782118813,"version":"1.7.1","store_hash":"h7cl1qnpwv2fma32ha42fb8rqxlh82f2","store_name":"temporal-cli","store_version":"1.7.1","meta_name":"temporal-cli-1.7.1","meta_version":[""],"attr_paths":["temporal-cli"],"platforms":["aarch64-darwin","aarch64-linux","x86_64-darwin","x86_64-linux"],"programs":["temporal"],"summary":"Command-line
+        interface for running Temporal Server and interacting with Workflows, Activities,
+        Namespaces, and other parts of Temporal","homepage":"https://docs.temporal.io/cli","license":"MIT"}}},{"commit_hash":"4a29d733e8a7d5b824c3d8c958a946a9867b3eb2","last_updated":1779351318,"version":"1.7.0","platforms":["aarch64-darwin","aarch64-linux","x86_64-darwin","x86_64-linux"],"summary":"Command-line
+        interface for running Temporal Server and interacting with Workflows, Activities,
+        Namespaces, and other parts of Temporal","homepage":"https://docs.temporal.io/cli","license":"MIT","name":"temporal-cli","systems":{"aarch64-darwin":{"commit_hash":"4a29d733e8a7d5b824c3d8c958a946a9867b3eb2","system":"aarch64-darwin","last_updated":1779351318,"version":"1.7.0","store_hash":"dlcwvmgvl6qnrwn25xh215zxvc65gjs6","store_name":"temporal-cli","store_version":"1.7.0","meta_name":"temporal-cli-1.7.0","meta_version":[""],"attr_paths":["temporal-cli"],"platforms":["aarch64-darwin","aarch64-linux","x86_64-darwin","x86_64-linux"],"programs":["temporal"],"summary":"Command-line
+        interface for running Temporal Server and interacting with Workflows, Activities,
+        Namespaces, and other parts of Temporal","homepage":"https://docs.temporal.io/cli","license":"MIT"}}},{"commit_hash":"01fbdeef22b76df85ea168fbfe1bfd9e63681b30","last_updated":1776949667,"version":"1.6.2","platforms":["aarch64-darwin","aarch64-linux","x86_64-darwin","x86_64-linux"],"summary":"Command-line
+        interface for running Temporal Server and interacting with Workflows, Activities,
+        Namespaces, and other parts of Temporal","homepage":"https://docs.temporal.io/cli","license":"MIT","name":"temporal-cli","systems":{"aarch64-darwin":{"commit_hash":"01fbdeef22b76df85ea168fbfe1bfd9e63681b30","system":"aarch64-darwin","last_updated":1776949667,"version":"1.6.2","store_hash":"p9lswscwqy553gnyacs5fgnbxpgli4l3","store_name":"temporal-cli","store_version":"1.6.2","meta_name":"temporal-cli-1.6.2","meta_version":[""],"attr_paths":["temporal-cli"],"platforms":["aarch64-darwin","aarch64-linux","x86_64-darwin","x86_64-linux"],"programs":["temporal"],"summary":"Command-line
+        interface for running Temporal Server and interacting with Workflows, Activities,
+        Namespaces, and other parts of Temporal","homepage":"https://docs.temporal.io/cli","license":"MIT"}}},{"commit_hash":"b63fe7f000adcfa269967eeff72c64cafecbbebe","last_updated":1774701658,"version":"1.6.1","platforms":["aarch64-darwin","aarch64-linux","x86_64-darwin","x86_64-linux"],"summary":"Command-line
+        interface for running Temporal Server and interacting with Workflows, Activities,
+        Namespaces, and other parts of Temporal","homepage":"https://docs.temporal.io/cli","license":"MIT","name":"temporal-cli","systems":{"aarch64-darwin":{"commit_hash":"b63fe7f000adcfa269967eeff72c64cafecbbebe","system":"aarch64-darwin","last_updated":1774701658,"version":"1.6.1","store_hash":"qz6rafsqd3011vvj75sqfa0a34g94vc8","store_name":"temporal-cli","store_version":"1.6.1","meta_name":"temporal-cli-1.6.1","meta_version":[""],"attr_paths":["temporal-cli"],"platforms":["aarch64-darwin","aarch64-linux","x86_64-darwin","x86_64-linux"],"programs":["temporal"],"summary":"Command-line
+        interface for running Temporal Server and interacting with Workflows, Activities,
+        Namespaces, and other parts of Temporal","homepage":"https://docs.temporal.io/cli","license":"MIT"}}},{"commit_hash":"09061f748ee21f68a089cd5d91ec1859cd93d0be","last_updated":1774078191,"version":"1.5.1","platforms":["aarch64-darwin","aarch64-linux","x86_64-darwin","x86_64-linux"],"summary":"Command-line
+        interface for running Temporal Server and interacting with Workflows, Activities,
+        Namespaces, and other parts of Temporal","homepage":"https://docs.temporal.io/cli","license":"MIT","name":"temporal-cli","systems":{"aarch64-darwin":{"commit_hash":"09061f748ee21f68a089cd5d91ec1859cd93d0be","system":"aarch64-darwin","last_updated":1774078191,"version":"1.5.1","store_hash":"5pjscl4rxab0q03fl6nkp42xcik128zc","store_name":"temporal-cli","store_version":"1.5.1","meta_name":"temporal-cli-1.5.1","meta_version":[""],"attr_paths":["temporal-cli"],"platforms":["aarch64-darwin","aarch64-linux","x86_64-darwin","x86_64-linux"],"programs":["temporal"],"summary":"Command-line
+        interface for running Temporal Server and interacting with Workflows, Activities,
+        Namespaces, and other parts of Temporal","homepage":"https://docs.temporal.io/cli","license":"MIT"}}},{"commit_hash":"01b6809f7f9d1183a2b3e081f0a1e6f8f415cb09","last_updated":1761166759,"version":"1.5.0","platforms":["aarch64-darwin","aarch64-linux","x86_64-darwin","x86_64-linux"],"summary":"Command-line
+        interface for running Temporal Server and interacting with Workflows, Activities,
+        Namespaces, and other parts of Temporal","homepage":"https://docs.temporal.io/cli","license":"MIT","name":"temporal-cli","systems":{"aarch64-darwin":{"commit_hash":"01b6809f7f9d1183a2b3e081f0a1e6f8f415cb09","system":"aarch64-darwin","last_updated":1761166759,"version":"1.5.0","store_hash":"3pqg6pj159faxdaa8lyyl2k0ka8pywrh","store_name":"temporal-cli","store_version":"1.5.0","meta_name":"temporal-cli-1.5.0","meta_version":[""],"attr_paths":["temporal-cli"],"platforms":["aarch64-darwin","aarch64-linux","x86_64-darwin","x86_64-linux"],"programs":["temporal"],"summary":"Command-line
+        interface for running Temporal Server and interacting with Workflows, Activities,
+        Namespaces, and other parts of Temporal","homepage":"https://docs.temporal.io/cli","license":"MIT"}}},{"commit_hash":"bce5fe2bb998488d8e7e7856315f90496723793c","last_updated":1759826507,"version":"1.4.1","platforms":["aarch64-darwin","aarch64-linux","x86_64-darwin","x86_64-linux"],"summary":"Command-line
+        interface for running Temporal Server and interacting with Workflows, Activities,
+        Namespaces, and other parts of Temporal","homepage":"https://docs.temporal.io/cli","license":"MIT","name":"temporal-cli","systems":{"aarch64-darwin":{"commit_hash":"bce5fe2bb998488d8e7e7856315f90496723793c","system":"aarch64-darwin","last_updated":1759826507,"version":"1.4.1","store_hash":"qpawkim2v6d6ynnpap06x5mq8ifid30p","store_name":"temporal-cli","store_version":"1.4.1","meta_name":"temporal-cli-1.4.1","meta_version":[""],"attr_paths":["temporal-cli"],"platforms":["aarch64-darwin","aarch64-linux","x86_64-darwin","x86_64-linux"],"programs":["temporal"],"summary":"Command-line
+        interface for running Temporal Server and interacting with Workflows, Activities,
+        Namespaces, and other parts of Temporal","homepage":"https://docs.temporal.io/cli","license":"MIT"}}},{"commit_hash":"a421ac6595024edcfbb1ef950a3712b89161c359","last_updated":1752446735,"version":"1.4.0","platforms":["aarch64-darwin","aarch64-linux","x86_64-darwin","x86_64-linux"],"summary":"Command-line
+        interface for running Temporal Server and interacting with Workflows, Activities,
+        Namespaces, and other parts of Temporal","homepage":"https://docs.temporal.io/cli","license":"MIT","name":"temporal-cli","systems":{"aarch64-darwin":{"commit_hash":"a421ac6595024edcfbb1ef950a3712b89161c359","system":"aarch64-darwin","last_updated":1752446735,"version":"1.4.0","store_hash":"y5jwhnz2i743fwby2a8pw5v53ypwzwsx","store_name":"temporal-cli","store_version":"1.4.0","meta_name":"temporal-cli-1.4.0","meta_version":[""],"attr_paths":["temporal-cli"],"platforms":["aarch64-darwin","aarch64-linux","x86_64-darwin","x86_64-linux"],"programs":["temporal"],"summary":"Command-line
+        interface for running Temporal Server and interacting with Workflows, Activities,
+        Namespaces, and other parts of Temporal","homepage":"https://docs.temporal.io/cli","license":"MIT"}}},{"commit_hash":"076e8c6678d8c54204abcb4b1b14c366835a58bb","last_updated":1750386251,"version":"1.3.0","platforms":["aarch64-darwin","aarch64-linux","x86_64-darwin","x86_64-linux"],"summary":"Command-line
+        interface for running Temporal Server and interacting with Workflows, Activities,
+        Namespaces, and other parts of Temporal","homepage":"https://docs.temporal.io/cli","license":"MIT","name":"temporal-cli","systems":{"aarch64-darwin":{"commit_hash":"076e8c6678d8c54204abcb4b1b14c366835a58bb","system":"aarch64-darwin","last_updated":1750386251,"version":"1.3.0","store_hash":"hch751j9rjxm2wkc8k1jghyqj9v9kzs1","store_name":"temporal-cli","store_version":"1.3.0","meta_name":"temporal-cli-1.3.0","meta_version":[""],"attr_paths":["temporal-cli"],"platforms":["aarch64-darwin","aarch64-linux","x86_64-darwin","x86_64-linux"],"programs":["temporal"],"summary":"Command-line
+        interface for running Temporal Server and interacting with Workflows, Activities,
+        Namespaces, and other parts of Temporal","homepage":"https://docs.temporal.io/cli","license":"MIT"}}},{"commit_hash":"2d068ae5c6516b2d04562de50a58c682540de9bf","last_updated":1740303746,"version":"1.2.0","platforms":["aarch64-darwin","aarch64-linux","x86_64-darwin","x86_64-linux"],"summary":"Command-line
+        interface for running Temporal Server and interacting with Workflows, Activities,
+        Namespaces, and other parts of Temporal","homepage":"https://docs.temporal.io/cli","license":"MIT","name":"temporal-cli","systems":{"aarch64-darwin":{"commit_hash":"2d068ae5c6516b2d04562de50a58c682540de9bf","system":"aarch64-darwin","last_updated":1740303746,"version":"1.2.0","store_hash":"iyrgl50pm6yp50mcy13bcj7gxgwmrgmk","store_name":"temporal-cli","store_version":"1.2.0","meta_name":"temporal-cli-1.2.0","meta_version":[""],"attr_paths":["temporal-cli"],"platforms":["aarch64-darwin","aarch64-linux","x86_64-darwin","x86_64-linux"],"programs":["temporal"],"summary":"Command-line
+        interface for running Temporal Server and interacting with Workflows, Activities,
+        Namespaces, and other parts of Temporal","homepage":"https://docs.temporal.io/cli","license":"MIT"}}},{"commit_hash":"50165c4f7eb48ce82bd063e1fb8047a0f515f8ce","last_updated":1737274611,"version":"1.1.2","platforms":["aarch64-darwin","aarch64-linux","x86_64-darwin","x86_64-linux"],"summary":"Command-line
+        interface for running Temporal Server and interacting with Workflows, Activities,
+        Namespaces, and other parts of Temporal","homepage":"https://docs.temporal.io/cli","license":"MIT","name":"temporal-cli","systems":{"aarch64-darwin":{"commit_hash":"50165c4f7eb48ce82bd063e1fb8047a0f515f8ce","system":"aarch64-darwin","last_updated":1737274611,"version":"1.1.2","store_hash":"n3vinz13iag501nh1w9qvpv0k0mhk154","store_name":"temporal-cli","store_version":"1.1.2","meta_name":"temporal-cli-1.1.2","meta_version":[""],"attr_paths":["temporal-cli"],"platforms":["aarch64-darwin","aarch64-linux","x86_64-darwin","x86_64-linux"],"programs":["temporal"],"summary":"Command-line
+        interface for running Temporal Server and interacting with Workflows, Activities,
+        Namespaces, and other parts of Temporal","homepage":"https://docs.temporal.io/cli","license":"MIT"}}},{"commit_hash":"dd51f52372a20a93c219e8216fe528a648ffcbf4","last_updated":1733686850,"version":"1.1.1","platforms":["aarch64-darwin","aarch64-linux","x86_64-darwin","x86_64-linux"],"summary":"Command-line
+        interface for running Temporal Server and interacting with Workflows, Activities,
+        Namespaces, and other parts of Temporal","homepage":"https://docs.temporal.io/cli","license":"MIT","name":"temporal-cli","systems":{"aarch64-darwin":{"commit_hash":"dd51f52372a20a93c219e8216fe528a648ffcbf4","system":"aarch64-darwin","last_updated":1733686850,"version":"1.1.1","store_hash":"95d4h5lrc75pyw9yp5qsi2c609mrn5m4","store_name":"temporal-cli","store_version":"1.1.1","meta_name":"temporal-cli-1.1.1","meta_version":[""],"attr_paths":["temporal-cli"],"platforms":["aarch64-darwin","aarch64-linux","x86_64-darwin","x86_64-linux"],"programs":["temporal"],"summary":"Command-line
+        interface for running Temporal Server and interacting with Workflows, Activities,
+        Namespaces, and other parts of Temporal","homepage":"https://docs.temporal.io/cli","license":"MIT"}}},{"commit_hash":"566e53c2ad750c84f6d31f9ccb9d00f823165550","last_updated":1733229606,"version":"1.18.1","platforms":["aarch64-darwin","aarch64-linux","x86_64-darwin","x86_64-linux"],"summary":"Command-line
+        interface for running Temporal Server and interacting with Workflows, Activities,
+        Namespaces, and other parts of Temporal","homepage":"https://docs.temporal.io/cli","license":"MIT","name":"temporal-cli","systems":{"aarch64-darwin":{"commit_hash":"566e53c2ad750c84f6d31f9ccb9d00f823165550","system":"aarch64-darwin","last_updated":1733229606,"version":"1.18.1","store_hash":"8k46j5vqfn0w4di0xay5nb9cfjpii9q5","store_name":"temporal-cli","store_version":"1.18.1","meta_name":"temporal-cli-1.18.1","meta_version":[""],"attr_paths":["temporal-cli"],"platforms":["aarch64-darwin","aarch64-linux","x86_64-darwin","x86_64-linux"],"programs":["temporal"],"summary":"Command-line
+        interface for running Temporal Server and interacting with Workflows, Activities,
+        Namespaces, and other parts of Temporal","homepage":"https://docs.temporal.io/cli","license":"MIT"}}},{"commit_hash":"3f316d2a50699a78afe5e77ca486ad553169061e","last_updated":1716358718,"version":"1.18.0","platforms":["aarch64-darwin","aarch64-linux","x86_64-darwin","x86_64-linux"],"summary":"Command-line
+        interface for running Temporal Server and interacting with Workflows, Activities,
+        Namespaces, and other parts of Temporal","homepage":"https://docs.temporal.io/cli","license":"MIT","name":"temporal-cli","systems":{"aarch64-darwin":{"commit_hash":"3f316d2a50699a78afe5e77ca486ad553169061e","system":"aarch64-darwin","last_updated":1716358718,"version":"1.18.0","store_hash":"n9pggddxhjj2ha1pqyy6npr4lw4sjs82","store_name":"temporal-cli","store_version":"1.18.0","meta_name":"temporal-cli-1.18.0","meta_version":[""],"attr_paths":["temporal-cli"],"platforms":["aarch64-darwin","aarch64-linux","x86_64-darwin","x86_64-linux"],"programs":["temporal"],"summary":"Command-line
+        interface for running Temporal Server and interacting with Workflows, Activities,
+        Namespaces, and other parts of Temporal","homepage":"https://docs.temporal.io/cli","license":"MIT"}}},{"commit_hash":"0a25e2c87e784bf7e06e7833ec0e06d34836959a","last_updated":1676335949,"version":"1.17.2","platforms":["aarch64-darwin","aarch64-linux","x86_64-darwin","x86_64-linux"],"summary":"Temporal
+        CLI","homepage":"https://temporal.io","license":"MIT","name":"temporal-cli","systems":{"aarch64-darwin":{"commit_hash":"0a25e2c87e784bf7e06e7833ec0e06d34836959a","system":"aarch64-darwin","last_updated":1676335949,"version":"1.17.2","store_hash":"zn59cyisj58sa45xqcvjf6f8nhkpa86l","store_name":"temporal-cli","store_version":"1.17.2","meta_name":"temporal-cli-1.17.2","meta_version":[""],"attr_paths":["temporal-cli"],"platforms":["aarch64-darwin","aarch64-linux","x86_64-darwin","x86_64-linux"],"programs":["tctl"],"summary":"Temporal
+        CLI","homepage":"https://temporal.io","license":"MIT"}}},{"commit_hash":"55b3f68bda6d4f4dc6092eed0508063f154fa4fd","last_updated":1669387357,"version":"1.17.1","platforms":["aarch64-darwin","aarch64-linux","x86_64-darwin","x86_64-linux"],"summary":"Temporal
+        CLI","homepage":"https://temporal.io","license":"MIT","name":"temporal-cli","systems":{"aarch64-darwin":{"commit_hash":"55b3f68bda6d4f4dc6092eed0508063f154fa4fd","system":"aarch64-darwin","last_updated":1669387357,"version":"1.17.1","store_hash":"g2dshg5qvb4ngy3v2ls9vij88ni1lhbd","store_name":"temporal-cli","store_version":"1.17.1","meta_name":"temporal-cli-1.17.1","meta_version":[""],"attr_paths":["temporal-cli"],"platforms":["aarch64-darwin","aarch64-linux","x86_64-darwin","x86_64-linux"],"programs":["tctl"],"summary":"Temporal
+        CLI","homepage":"https://temporal.io","license":"MIT"}}},{"commit_hash":"21fa5a05ef05a042b2be298a9e601bdad5159145","last_updated":1666873047,"version":"1.17.0","platforms":["aarch64-darwin","aarch64-linux","x86_64-darwin","x86_64-linux"],"summary":"Temporal
+        CLI","homepage":"https://temporal.io","license":"MIT","name":"temporal-cli","systems":{"aarch64-darwin":{"commit_hash":"21fa5a05ef05a042b2be298a9e601bdad5159145","system":"aarch64-darwin","last_updated":1666873047,"version":"1.17.0","store_hash":"zgp11c8bfgnh7ymqb74qxq44na9mvi05","store_name":"temporal-cli","store_version":"1.17.0","meta_name":"temporal-cli-1.17.0","meta_version":[""],"attr_paths":["temporal-cli"],"platforms":["aarch64-darwin","aarch64-linux","x86_64-darwin","x86_64-linux"],"programs":["tctl"],"summary":"Temporal
+        CLI","homepage":"https://temporal.io","license":"MIT"}}},{"commit_hash":"31acb601e388eb7d552f137dbe5cb4677fdf1c3c","last_updated":1666454850,"version":"1.16.2","platforms":["aarch64-darwin","aarch64-linux","x86_64-darwin","x86_64-linux"],"summary":"Temporal
+        CLI","homepage":"https://temporal.io","license":"MIT","name":"temporal-cli","systems":{"aarch64-darwin":{"commit_hash":"31acb601e388eb7d552f137dbe5cb4677fdf1c3c","system":"aarch64-darwin","last_updated":1666454850,"version":"1.16.2","store_hash":"lmayyilrim48sgbcbfa5x9vaad4zkv54","store_name":"temporal-cli","store_version":"1.16.2","meta_name":"temporal-cli-1.16.2","meta_version":[""],"attr_paths":["temporal-cli"],"platforms":["aarch64-darwin","aarch64-linux","x86_64-darwin","x86_64-linux"],"programs":["tctl"],"summary":"Temporal
+        CLI","homepage":"https://temporal.io","license":"MIT"}}},{"commit_hash":"72bbea9db7d727ed044e60b5f5febc60a3c5c955","last_updated":1655700315,"version":"1.16.1","platforms":["aarch64-darwin","aarch64-linux","x86_64-darwin","x86_64-linux"],"summary":"Temporal
+        CLI","homepage":"https://temporal.io","license":"MIT","name":"temporal-cli","systems":{"aarch64-darwin":{"commit_hash":"72bbea9db7d727ed044e60b5f5febc60a3c5c955","system":"aarch64-darwin","last_updated":1655700315,"version":"1.16.1","store_hash":"kghmgyqbn6ws5j0hgz3f99n6vddwayy0","store_name":"temporal-cli","store_version":"1.16.1","meta_name":"temporal-cli-1.16.1","meta_version":[""],"attr_paths":["temporal-cli"],"platforms":["aarch64-darwin","aarch64-linux","x86_64-darwin","x86_64-linux"],"programs":["tctl"],"summary":"Temporal
+        CLI","homepage":"https://temporal.io","license":"MIT"}}}]}]}
+
+        '
+  recorded_at: Sun, 20 Sep 2026 10:51:16 GMT
+- request:
+    method: get
+    uri: https://raw.githubusercontent.com/NixOS/nixpkgs/c27cdad491a991b11ed731760aa2ef8db0cb0410/pkgs/by-name/te/temporal-cli/package.nix
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      user-agent:
+      - dependabot-core/0.396.0 excon/1.7.1 ruby/3.4.8 (arm64-darwin25) (+https://github.com/dependabot/dependabot-core)
+      accept-encoding:
+      - deflate, gzip
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      connection:
+      - keep-alive
+      content-length:
+      - '898'
+      cache-control:
+      - max-age=300
+      content-security-policy:
+      - default-src 'none'; style-src 'unsafe-inline'; sandbox
+      content-type:
+      - text/plain; charset=utf-8
+      etag:
+      - W/"43c9a368b9c5b2a962b88f334acfe71cf8ebd69e6763ecb3110073f0cf659db8"
+      strict-transport-security:
+      - max-age=31536000
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - deny
+      x-xss-protection:
+      - 1; mode=block
+      x-github-request-id:
+      - B078:2D9A22:20BB77A:244B8E8:6AAFBAA4
+      x-github-edge-region:
+      - fra
+      content-encoding:
+      - ''
+      accept-ranges:
+      - bytes
+      date:
+      - Sun, 20 Sep 2026 10:51:17 GMT
+      via:
+      - 1.1 varnish
+      x-served-by:
+      - cache-toj-leto2350068-TOJ
+      x-cache:
+      - MISS
+      x-cache-hits:
+      - '0'
+      x-timer:
+      - S1789901477.820182,VS0,VE199
+      vary:
+      - Authorization,Accept-Encoding
+      access-control-allow-origin:
+      - "*"
+      cross-origin-resource-policy:
+      - cross-origin
+      x-fastly-request-id:
+      - 1adc70187be701ea9838f69bc3bf922490ebde75
+      expires:
+      - Sun, 20 Sep 2026 10:56:17 GMT
+      source-age:
+      - '0'
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          lib,
+          fetchFromGitHub,
+          buildGoModule,
+          installShellFiles,
+          writableTmpDirAsHomeHook,
+          stdenv,
+          nix-update-script,
+          versionCheckHook,
+        }:
+
+        buildGoModule (finalAttrs: {
+          pname = "temporal-cli";
+          version = "1.8.2";
+
+          src = fetchFromGitHub {
+            owner = "temporalio";
+            repo = "cli";
+            tag = "v${finalAttrs.version}";
+            hash = "sha256-OBdWQLPFvXAsbjNv/Tq+75IUl31XVtpgJVCQdHQqdBw=";
+          };
+
+          vendorHash = "sha256-9lO9uhy1n85QYyoh27cKhdlcuL4GT98aCNWwe8tOwoQ=";
+
+          __structuredAttrs = true;
+
+          nativeBuildInputs = [ installShellFiles ];
+
+          subPackages = [
+            "cmd/temporal"
+          ];
+
+          ldflags = [
+            "-s"
+            "-w"
+            "-X github.com/temporalio/cli/internal/temporalcli.Version=${finalAttrs.version}"
+          ];
+
+          # Tests fail with x86 on macOS Rosetta 2
+          doCheck = !(stdenv.hostPlatform.isDarwin && stdenv.hostPlatform.isx86_64);
+
+          nativeCheckInputs = [ writableTmpDirAsHomeHook ];
+
+          doInstallCheck = true;
+          nativeInstallCheckInputs = [ versionCheckHook ];
+
+          postInstall = lib.optionalString (stdenv.buildPlatform.canExecute stdenv.hostPlatform) ''
+            installShellCompletion --cmd temporal \
+              --bash <($out/bin/temporal completion bash) \
+              --fish <($out/bin/temporal completion fish) \
+              --zsh <($out/bin/temporal completion zsh)
+          '';
+
+          __darwinAllowLocalNetworking = true;
+
+          passthru.updateScript = nix-update-script {
+            extraArgs = [
+              "--version-regex"
+              "^v(\\d+\\.\\d+\\.\\d+)$"
+            ];
+          };
+
+          meta = {
+            description = "Command-line interface for running Temporal Server and interacting with Workflows, Activities, Namespaces, and other parts of Temporal";
+            homepage = "https://docs.temporal.io/cli";
+            license = lib.licenses.mit;
+            maintainers = with lib.maintainers; [
+              aaronjheng
+              jlesquembre
+            ];
+            mainProgram = "temporal";
+          };
+        })
+  recorded_at: Sun, 20 Sep 2026 10:51:16 GMT
+recorded_with: VCR 6.4.0
