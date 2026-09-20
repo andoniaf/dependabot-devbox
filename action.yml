@@ -14,9 +14,12 @@ inputs:
     required: false
     default: ""
   gem-version:
-    description: "Pin a specific dependabot-devbox gem version (e.g. '0.1.0'). Defaults to latest."
+    description: >-
+      dependabot-devbox gem version to install. Defaults to the version released with this
+      action, so a pinned action ref always runs the same code. Set to "latest" to track the
+      newest published gem instead.
     required: false
-    default: ""
+    default: "0.3.0"
   group-updates:
     description: >-
       Group minor/patch updates into a single PR; each major update still gets its own PR.
@@ -35,36 +38,49 @@ inputs:
 runs:
   using: "composite"
   steps:
+    # Points at the empty devbox.json shipped with this action so only the
+    # devbox CLI and nix are installed, never the consumer's packages. The
+    # nix cache keeps nixpkgs flake metadata warm between runs.
     - uses: jetify-com/devbox-install-action@8c6a66ed6273138b1915457069de78cb52fe3bd7 # v0.15.0
       with:
         enable-cache: "true"
+        project-path: ${{ github.action_path }}
 
     - uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1.321.0
       with:
         ruby-version: "3.3"
 
+    - name: Restore gem cache
+      if: inputs.gem-version != 'latest'
+      uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+      with:
+        path: ${{ runner.temp }}/dependabot-devbox-gems
+        key: ${{ runner.os }}-${{ runner.arch }}-dependabot-devbox-${{ inputs.gem-version }}-ruby3.3
+
     - name: Install dependabot-devbox
       shell: bash
       # zizmor: ignore[adhoc-packages] -- this action's entire purpose is to install and run the dependabot-devbox CLI
       run: |
-        if [ -n "${INPUTS_GEM_VERSION}" ]; then
-          gem install dependabot-devbox -v "${INPUTS_GEM_VERSION}"
-        else
+        if [ "${INPUTS_GEM_VERSION}" = "latest" ]; then
           gem install dependabot-devbox
+        elif ! gem list --installed --exact dependabot-devbox --version "${INPUTS_GEM_VERSION}" > /dev/null; then
+          gem install dependabot-devbox --version "${INPUTS_GEM_VERSION}"
+        else
+          echo "dependabot-devbox ${INPUTS_GEM_VERSION} restored from cache"
         fi
       env:
+        GEM_HOME: ${{ runner.temp }}/dependabot-devbox-gems
         INPUTS_GEM_VERSION: ${{ inputs.gem-version }}
 
     - name: Run devbox dependency updates
       shell: bash
       env:
+        GEM_HOME: ${{ runner.temp }}/dependabot-devbox-gems
         GITHUB_ACCESS_TOKEN: ${{ inputs.github-token }}
         GITHUB_REPOSITORY: ${{ github.repository }}
         DIRECTORY_PATH: ${{ inputs.directory }}
+        BASE_BRANCH: ${{ inputs.base-branch }}
         GROUP_UPDATES: ${{ inputs.group-updates }}
         COOLDOWN_DAYS: ${{ inputs.cooldown-days }}
-        INPUTS_BASE_BRANCH: ${{ inputs.base-branch }}
         EXCLUDE_PACKAGES: ${{ inputs.exclude-packages }}
-      run: |
-        [ -n "${INPUTS_BASE_BRANCH}" ] && export BASE_BRANCH="${INPUTS_BASE_BRANCH}"
-        dependabot-devbox-update
+      run: "${GEM_HOME}/bin/dependabot-devbox-update"

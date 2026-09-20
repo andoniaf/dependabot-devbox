@@ -1,5 +1,10 @@
 /.bundle/
 /vendor/
-/Gemfile.lock
+/coverage/
+/tmp/
+/.worktrees/
+/.devbox/
+/devbox.lock
+.rspec_status
 *.gem
 .DS_Store

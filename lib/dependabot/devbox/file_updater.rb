@@ -7,16 +7,13 @@ require "dependabot/errors"
 require "dependabot/shared_helpers"
 require "dependabot/file_updaters"
 require "dependabot/file_updaters/base"
+require "dependabot/devbox/constants"
 require "dependabot/devbox/helpers"
 
 module Dependabot
   module Devbox
     class FileUpdater < Dependabot::FileUpdaters::Base
       extend T::Sig
-
-      MANIFEST_FILENAME = "devbox.json"
-      LOCKFILE_FILENAME = "devbox.lock"
-      LATEST = "latest"
 
       sig { override.returns(T::Array[Dependabot::DependencyFile]) }
       def updated_dependency_files
@@ -36,15 +33,15 @@ module Dependabot
 
       sig { override.void }
       def check_required_files
-        return if dependency_files.any? { |f| File.basename(f.name) == MANIFEST_FILENAME }
+        return if Helpers.find_file(dependency_files, MANIFEST_FILENAME)
 
-        raise "No devbox.json found!"
+        raise "No #{MANIFEST_FILENAME} found!"
       end
 
       sig { returns(Dependabot::DependencyFile) }
       def manifest
         @manifest ||= T.let(
-          T.must(dependency_files.find { |f| File.basename(f.name) == MANIFEST_FILENAME }),
+          T.must(Helpers.find_file(dependency_files, MANIFEST_FILENAME)),
           T.nilable(Dependabot::DependencyFile)
         )
       end
@@ -52,7 +49,7 @@ module Dependabot
       sig { returns(T.nilable(Dependabot::DependencyFile)) }
       def lockfile
         @lockfile ||= T.let(
-          dependency_files.find { |f| File.basename(f.name) == LOCKFILE_FILENAME },
+          Helpers.find_file(dependency_files, LOCKFILE_FILENAME),
           T.nilable(Dependabot::DependencyFile)
         )
       end
@@ -82,9 +79,10 @@ module Dependabot
         content
       end
 
-      # Regenerates devbox.lock by running `devbox update <pkg> --no-install`
-      # (metadata-only: resolves nixpkgs commits/hashes without downloading store
-      # paths) against the updated manifest in an isolated temp directory.
+      # Regenerates devbox.lock by running a single
+      # `devbox update --no-install <pkg>...` (metadata-only: resolves nixpkgs
+      # commits/hashes without downloading store paths) against the updated
+      # manifest in an isolated temp directory.
       sig { params(manifest_content: String).returns(String) }
       def regenerated_lockfile_content(manifest_content)
         original = lockfile&.content
@@ -95,12 +93,10 @@ module Dependabot
               dir = dir.to_s
               File.write(File.join(dir, MANIFEST_FILENAME), manifest_content)
               File.write(File.join(dir, LOCKFILE_FILENAME), original) if original
-              dependencies.each do |dep|
-                Helpers.run_devbox_command("update", "--no-install", dep.name, dir: dir)
-              end
+              Helpers.run_devbox_command("update", "--no-install", *dependencies.map(&:name), dir: dir)
               File.read(File.join(dir, LOCKFILE_FILENAME))
             end
-          rescue SharedHelpers::HelperSubprocessFailed, Errno::ENOENT => e
+          rescue SharedHelpers::HelperSubprocessFailed => e
             raise Dependabot::DependencyFileNotResolvable, e.message
           end
 

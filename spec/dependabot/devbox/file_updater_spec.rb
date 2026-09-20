@@ -69,6 +69,13 @@ RSpec.describe Dependabot::Devbox::FileUpdater do
       end
     end
 
+    it "resolves every dependency in a single devbox update call" do
+      updater.updated_dependency_files
+
+      expect(Dependabot::Devbox::Helpers).to have_received(:run_devbox_command)
+        .with("update", "--no-install", "python", dir: anything).once
+    end
+
     context "when the constraint changes (pinned bump)" do
       it "rewrites the manifest entry and regenerates the lockfile" do
         updated = updater.updated_dependency_files

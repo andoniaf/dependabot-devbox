@@ -1,87 +1,16 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require "dependabot/file_fetchers"
-require "dependabot/file_parsers"
-require "dependabot/update_checkers"
-require "dependabot/file_updaters"
-require "dependabot/pull_request_creator"
+require "logger"
+require "dependabot/logger"
 require "dependabot/devbox"
-require "dependabot/devbox/update_runner"
 
-repo      = ENV.fetch("GITHUB_REPOSITORY")
-token     = ENV["GITHUB_ACCESS_TOKEN"] || ENV.fetch("GITHUB_TOKEN")
-directory = ENV.fetch("DIRECTORY_PATH", "/")
-branch    = ENV["BASE_BRANCH"].then { |b| b.nil? || b.empty? ? nil : b }
-group     = ENV.fetch("GROUP_UPDATES", "false") == "true"
-cooldown  = Dependabot::Devbox::UpdateRunner.build_cooldown(ENV.fetch("COOLDOWN_DAYS", "0").to_i)
+Dependabot.logger = Logger.new($stdout, formatter: ->(_severity, _time, _progname, msg) { "#{msg}\n" })
 
-credentials = [
-  {
-    "type" => "git_source",
-    "host" => "github.com",
-    "username" => "x-access-token",
-    "password" => token
-  }
-]
-
-source = Dependabot::Source.new(
-  provider: "github",
-  repo: repo,
-  directory: directory,
-  branch: branch
-)
-
-location = directory == "/" ? repo : "#{repo} (#{directory})"
-puts "Fetching devbox files from #{location}"
-
-fetcher = Dependabot::FileFetchers.for_package_manager("devbox").new(
-  source: source,
-  credentials: credentials
-)
-
-files  = fetcher.files
-commit = fetcher.commit
-
-parser = Dependabot::FileParsers.for_package_manager("devbox").new(
-  dependency_files: files,
-  source: source,
-  credentials: credentials
-)
-
-dependencies = parser.parse
-puts "Found #{dependencies.length} devbox package(s)"
-
-excluded = Dependabot::Devbox::Helpers.parse_exclude_list(ENV.fetch("EXCLUDE_PACKAGES", nil))
-unless excluded.empty?
-  skipped, dependencies = dependencies.partition { |d| excluded.include?(d.name) }
-  skipped.each { |d| puts "Excluding #{d.name} (matched exclude-packages)" }
+begin
+  config = Dependabot::Devbox::UpdateRunner::Config.from_env
+  exit Dependabot::Devbox::UpdateRunner.run(config)
+rescue Dependabot::Devbox::UpdateRunner::ConfigurationError => e
+  warn "Configuration error: #{e.message}"
+  exit 2
 end
-
-if group
-  all_updated_deps = dependencies.filter_map do |dep|
-    Dependabot::Devbox::UpdateRunner.check_dependency(dep, files, credentials, cooldown)
-  end.flatten
-
-  if all_updated_deps.empty?
-    puts "All packages up to date."
-  else
-    majors, rest = Dependabot::Devbox::UpdateRunner.partition_majors(all_updated_deps)
-
-    Dependabot::Devbox::UpdateRunner.open_pr(source, commit, rest, files, credentials) unless rest.empty?
-
-    majors.each do |dep|
-      puts "Opening individual PR for major bump: #{dep.name}"
-      Dependabot::Devbox::UpdateRunner.open_pr(source, commit, [dep], files, credentials, indent: "  ")
-    end
-  end
-else
-  dependencies.each do |dep|
-    updated_deps = Dependabot::Devbox::UpdateRunner.check_dependency(dep, files, credentials, cooldown)
-    next unless updated_deps
-
-    Dependabot::Devbox::UpdateRunner.open_pr(source, commit, updated_deps, files, credentials, indent: "  ")
-  end
-end
-
-puts "Done."

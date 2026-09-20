@@ -13,8 +13,6 @@ module Dependabot
 
       require_relative "update_checker/latest_version_finder"
 
-      LATEST = "latest"
-
       sig { override.returns(T.nilable(T.any(String, Gem::Version))) }
       def latest_version
         latest_version_finder.latest_version
@@ -77,7 +75,7 @@ module Dependabot
       #     bump rewrites it
       sig { params(old_constraint: T.nilable(String), latest: String).returns(T.nilable(String)) }
       def updated_constraint(old_constraint, latest)
-        return old_constraint if old_constraint.nil? || old_constraint == LATEST
+        return old_constraint if old_constraint.nil? || old_constraint == Version::LATEST
 
         segment_count = old_constraint.split(".").length
         latest.split(".").first(segment_count).join(".")

@@ -5,6 +5,7 @@ require "json"
 require "dependabot/dependency"
 require "dependabot/file_parsers"
 require "dependabot/file_parsers/base"
+require "dependabot/devbox/constants"
 require "dependabot/devbox/helpers"
 require "dependabot/devbox/version"
 
@@ -14,10 +15,8 @@ module Dependabot
       extend T::Sig
 
       ECOSYSTEM = "devbox"
-      MANIFEST_FILENAME = "devbox.json"
-      LOCKFILE_FILENAME = "devbox.lock"
       # An entry without an "@constraint" suffix tracks the newest release.
-      DEFAULT_CONSTRAINT = "latest"
+      DEFAULT_CONSTRAINT = Version::LATEST
       SOURCE_TYPE = "nixhub"
 
       sig { override.returns(T::Array[Dependabot::Dependency]) }
@@ -48,23 +47,17 @@ module Dependabot
       def check_required_files
         return if manifest
 
-        raise "No devbox.json found!"
+        raise "No #{MANIFEST_FILENAME} found!"
       end
 
       sig { returns(T.nilable(DependencyFile)) }
       def manifest
-        @manifest ||= T.let(
-          dependency_files.find { |f| File.basename(f.name) == MANIFEST_FILENAME },
-          T.nilable(DependencyFile)
-        )
+        @manifest ||= T.let(Helpers.find_file(dependency_files, MANIFEST_FILENAME), T.nilable(DependencyFile))
       end
 
       sig { returns(T.nilable(DependencyFile)) }
       def lockfile
-        @lockfile ||= T.let(
-          dependency_files.find { |f| File.basename(f.name) == LOCKFILE_FILENAME },
-          T.nilable(DependencyFile)
-        )
+        @lockfile ||= T.let(Helpers.find_file(dependency_files, LOCKFILE_FILENAME), T.nilable(DependencyFile))
       end
 
       # The "packages" field in devbox.json is an array of `name@constraint`

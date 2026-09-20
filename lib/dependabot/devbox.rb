@@ -4,25 +4,33 @@
 require "dependabot/utils"
 require "dependabot/config/file"
 
-# The published dependabot-common gem predates the devbox entry being added
-# to PACKAGE_MANAGER_LOOKUP. Patch validate_package_manager! to allow "devbox"
-# until the upstream PR merges and a new gem version is published.
 module Dependabot
-  module Utils
-    class << self
+  module Devbox
+    # The published dependabot-common gem predates the devbox entry being
+    # added to PACKAGE_MANAGER_LOOKUP. Until upstream ships it, allow "devbox"
+    # through the private validation hook. The patch is prepended (so the
+    # upstream implementation still runs for every other ecosystem), applied
+    # only while the hook exists under its current name, and retires itself
+    # once upstream knows about devbox.
+    module PackageManagerPatch
       private
 
       def validate_package_manager!(package_manager)
         return if package_manager == "devbox"
-        return if Config::File::REVERSE_PACKAGE_MANAGER_LOOKUP.key?(package_manager)
-        return if %w[dummy silent].include?(package_manager)
 
-        raise "Unsupported package_manager #{package_manager}"
+        super
       end
+    end
+
+    if !Dependabot::Config::File::REVERSE_PACKAGE_MANAGER_LOOKUP.key?("devbox") &&
+       Dependabot::Utils.singleton_class.private_method_defined?(:validate_package_manager!)
+      Dependabot::Utils.singleton_class.prepend(PackageManagerPatch)
     end
   end
 end
 
+require "dependabot/devbox/constants"
+require "dependabot/devbox/nixhub"
 require "dependabot/devbox/file_fetcher"
 require "dependabot/devbox/file_parser"
 require "dependabot/devbox/update_checker"
