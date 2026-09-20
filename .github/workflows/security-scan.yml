@@ -14,32 +14,9 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  changes:
-    name: Detect Changes
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    permissions:
-      contents: read
-      pull-requests: read
-    outputs:
-      workflows: ${{ steps.filter.outputs.workflows }}
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      # zizmor: ignore[artipacked] -- paths-filter needs git credentials to fetch the base commit SHA on push events
-
-      - uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
-        id: filter
-        with:
-          filters: |
-            workflows:
-              - '.github/workflows/**'
-
   zizmor:
     name: Workflow Analysis
     runs-on: ubuntu-latest
-    needs: changes
-    if: needs.changes.outputs.workflows == 'true'
-    continue-on-error: true
     timeout-minutes: 10
     steps:
       - name: Checkout repository

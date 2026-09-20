@@ -29,6 +29,20 @@ jobs:
           ruby-version: "3.3"
           bundler-cache: false
 
+      # A tag that does not match the gemspec would fail at `gem push` after
+      # the tag already exists, and a mismatched action.yml default would ship
+      # an action that installs a different gem than the one being released.
+      - name: Check that the tag, gemspec and action.yml agree
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          gem_version="$(ruby -e 'puts Gem::Specification.load("dependabot-devbox.gemspec").version')"
+          action_default="$(ruby -ryaml -e 'puts YAML.load_file("action.yml").dig("inputs", "gem-version", "default")')"
+          if [ "v${gem_version}" != "${TAG}" ] || [ "${action_default}" != "${gem_version}" ]; then
+            echo "::error::tag ${TAG}, gemspec version ${gem_version} and action.yml gem-version default ${action_default} must agree"
+            exit 1
+          fi
+
       - uses: rubygems/configure-rubygems-credentials@dc5a8d8553e6ee01fc26761a49e99e733d17954a # v2.1.0
 
       - name: Build and publish gem
@@ -43,3 +57,20 @@ jobs:
           gh release create "${GITHUB_REF_NAME}" dependabot-devbox-*.gem \
             --title "${GITHUB_REF_NAME}" \
             --generate-notes
+
+      # Keeps the floating major tag (v0, v1, ...) that consumers reference
+      # pointing at the newest release of that major line.
+      - name: Move the major version tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          major="${TAG%%.*}"
+          if gh api "repos/${GITHUB_REPOSITORY}/git/ref/tags/${major}" > /dev/null 2>&1; then
+            gh api --method PATCH "repos/${GITHUB_REPOSITORY}/git/refs/tags/${major}" \
+              -f sha="${GITHUB_SHA}" -F force=true > /dev/null
+          else
+            gh api --method POST "repos/${GITHUB_REPOSITORY}/git/refs" \
+              -f ref="refs/tags/${major}" -f sha="${GITHUB_SHA}" > /dev/null
+          fi
+          echo "${major} -> ${GITHUB_SHA}"
